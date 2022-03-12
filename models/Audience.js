@@ -15,8 +15,8 @@ Audience.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'show',
-        key: 'showId',
+        model: 'shows',
+        key: 'show_id',
         unique: false
       }
     },
@@ -24,8 +24,8 @@ Audience.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'attendee',
-        key: 'attendeeId',
+        model: 'attendees',
+        key: 'attendee_id',
         unique: false
       }
     }

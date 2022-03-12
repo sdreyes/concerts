@@ -19,8 +19,8 @@ Show.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'venue',
-        key: 'venueId',
+        model: 'venues',
+        key: 'venue_id',
         unique: false
       }
     },

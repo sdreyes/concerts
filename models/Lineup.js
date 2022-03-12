@@ -15,8 +15,8 @@ Lineup.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'artist',
-        key: 'artistId',
+        model: 'artists',
+        key: 'artist_id',
         unique: false
       }
     },
@@ -24,8 +24,8 @@ Lineup.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'show',
-        key: 'showId',
+        model: 'shows',
+        key: 'show_id',
         unique: false
       }
     },
