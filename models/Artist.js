@@ -5,7 +5,7 @@ class Artist extends Model {}
 
 Artist.init(
   {
-    artist_id: {
+    artistId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
