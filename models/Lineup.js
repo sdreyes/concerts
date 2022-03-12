@@ -29,6 +29,11 @@ Lineup.init(
         unique: false
       }
     },
+    isHeadliner: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     setlist: {
       type: DataTypes.TEXT,
       allowNull: true
