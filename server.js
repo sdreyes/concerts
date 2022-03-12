@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./config/connection');
 const path = require("path");
+const routes = require('./routes');
 const models = require('./models');
 
 const app = express();
@@ -12,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 };
+
+// API routes
+app.use(routes);
 
 // Send every other request to the React app
 // Define any API routes before this runs
