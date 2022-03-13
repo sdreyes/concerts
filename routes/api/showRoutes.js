@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Show, Attendee, Audience, Artist, Lineup } = require('../../models');
+const { Show, Attendee, Audience, Artist, Lineup, Venue } = require('../../models');
 
 // GET all shows
 router.get('/', async (req, res) => {
@@ -17,10 +17,10 @@ router.get('/', async (req, res) => {
 router.get('/:showId', async (req, res) => {
   try {
     const showData = await Show.findByPk(req.params.showId, {
+      attributes: ['showId', 'title', 'startDate', 'endDate', 'notes'],
       include: [
         {
           model: Attendee,
-          attributes: ['name', 'notes'],
           through: {
             Audience,
             attributes: []
@@ -34,6 +34,10 @@ router.get('/:showId', async (req, res) => {
             attributes: ['isHeadliner', 'setlist']
           },
           as: 'artistLineup'
+        },
+        {
+          model: Venue,
+          as: 'location'
         }
       ]
     });
