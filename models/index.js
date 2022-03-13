@@ -43,6 +43,12 @@ Show.belongsToMany(Artist, {
   as: 'artistLineup'
 });
 
+// Venue to Show (one:many) relationship
+Show.belongsTo(Venue, {
+  foreignKey: 'venueId',
+  as: 'location'
+});
+
 module.exports = {
   Artist,
   Venue,
