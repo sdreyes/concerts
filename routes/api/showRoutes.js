@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Show, Attendee, Audience } = require('../../models');
+const { Show, Attendee, Audience, Artist, Lineup } = require('../../models');
 
 // GET all shows
 router.get('/', async (req, res) => {
@@ -20,11 +20,20 @@ router.get('/:showId', async (req, res) => {
       include: [
         {
           model: Attendee,
+          attributes: ['name', 'notes'],
           through: {
             Audience,
             attributes: []
           },
           as: 'attendees'
+        },
+        {
+          model: Artist,
+          through: {
+            Lineup,
+            attributes: ['isHeadliner', 'setlist']
+          },
+          as: 'artistLineup'
         }
       ]
     });
