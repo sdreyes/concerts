@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import API from "../utils/API";
+import {Container, Row, Col} from 'react-bootstrap';
+import {ShowsTable} from "../components/ShowsTable"
 
 class Home extends Component {
   state = {
@@ -7,7 +9,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log("Component mounted");
     this.loadShows();
   }
 
@@ -21,15 +22,17 @@ class Home extends Component {
   }
   render() {
     return (
-      <Fragment>
-        { 
-        this.state.shows ? 
-          <ul>
-            {this.state.shows.map(show => <li key={show.showId}>{show.title}</li>)}
-          </ul>
-          : <h1>No shows</h1>
-        }
-      </Fragment> 
+      <Container className="p-3">
+        <Row>
+          <Col>
+            { 
+              this.state.shows ? 
+                <ShowsTable shows={this.state.shows}/>
+                : <h1>No shows</h1>
+            }
+          </Col>
+        </Row>
+      </Container> 
     )
   }
 }
