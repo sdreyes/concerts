@@ -3,14 +3,35 @@ const { Show, Attendee, Audience, Artist, Lineup, Venue } = require('../../model
 
 // GET all shows
 router.get('/', async (req, res) => {
-  console.log("GET api/shows")
   try {
     const showData = await Show.findAll({
       order: [
         ['startDate', 'DESC']
+      ],
+      attributes: ['showId', 'title', 'startDate', 'endDate', 'notes'],
+      include: [
+        {
+          model: Attendee,
+          through: {
+            Audience,
+            attributes: []
+          },
+          as: 'attendees'
+        },
+        {
+          model: Artist,
+          through: {
+            Lineup,
+            attributes: ['isHeadliner', 'setlist']
+          },
+          as: 'artistLineup'
+        },
+        {
+          model: Venue,
+          as: 'location'
+        }
       ]
     });
-    console.log(showData);
     res.status(200).json(showData);
   } catch (err) {
     res.status(500).json(err);
