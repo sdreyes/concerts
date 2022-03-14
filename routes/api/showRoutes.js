@@ -3,10 +3,14 @@ const { Show, Attendee, Audience, Artist, Lineup, Venue } = require('../../model
 
 // GET all shows
 router.get('/', async (req, res) => {
+  console.log("GET api/shows")
   try {
     const showData = await Show.findAll({
-      order: ['title']
+      order: [
+        ['startDate', 'DESC']
+      ]
     });
+    console.log(showData);
     res.status(200).json(showData);
   } catch (err) {
     res.status(500).json(err);
