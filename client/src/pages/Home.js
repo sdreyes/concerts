@@ -16,7 +16,7 @@ class Home extends Component {
     API.getShows().then(
       res => {
         console.log(res.data);
-        this.setState({shows: res.data})
+        this.setState({shows: res.data});
       }
     )
   }
@@ -25,11 +25,7 @@ class Home extends Component {
       <Container className="p-3">
         <Row>
           <Col>
-            { 
-              this.state.shows ? 
-                <ShowsTable shows={this.state.shows}/>
-                : <h1>No shows</h1>
-            }
+            {this.state.shows && <ShowsTable shows={this.state.shows}/>}
           </Col>
         </Row>
       </Container> 
