@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Component, Fragment} from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,19 +7,64 @@ import {
 import Navigation from "./components/Navigation"
 import AddShow from "./pages/AddShow.js"
 import Home from "./pages/Home.js"
+import API from "./utils/API";
 
-function App() {
-  return (
-    <Fragment>
-      <Navigation />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/addshow" element={<AddShow />}/>
-        </Routes>
-      </Router>
-    </Fragment>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      venues: [],
+      artists: [],
+      shows: []
+    }
+    this.loadShows = this.loadShows.bind(this)
+  }
+  // Component Mounted
+  componentDidMount() {
+    this.loadArtists();
+    this.loadVenues();
+    // this.loadShows();
+  }
+  // Load Artists
+  loadArtists = () => {
+    API.getArtists().then(
+      res => {
+        this.setState({artists: res.data});
+      }
+    )
+  }
+  // Load Venues
+  loadVenues = () => {
+    API.getVenues().then(
+      res => {
+        // console.log(res.data);
+        this.setState({venues: res.data});
+      }
+    )
+  }
+  // Load Shows
+  loadShows = () => {
+    API.getShows().then(
+      res => {
+        this.setState({shows: res.data});
+      }
+    )
+  }
+
+  // Render
+  render() {
+    return (
+      <Fragment>
+        <Navigation />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home shows={this.state.shows} loadShows={this.loadShows} />}/>
+            <Route path="/addshow" element={<AddShow />}/>
+          </Routes>
+        </Router>
+      </Fragment>
+    );
+  }
 }
 
 export default App;

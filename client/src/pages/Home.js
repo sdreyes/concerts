@@ -4,28 +4,20 @@ import {Container, Row, Col} from 'react-bootstrap';
 import {ShowsTable} from "../components/ShowsTable"
 
 class Home extends Component {
-  state = {
-    shows: []
+  constructor(props) {
+    super(props)
+    this.loadShows = this.props.loadShows.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.loadShows();
-  }
-
-  loadShows = () => {
-    API.getShows().then(
-      res => {
-        console.log(res.data);
-        this.setState({shows: res.data});
-      }
-    )
   }
   render() {
     return (
       <Container className="p-3">
         <Row>
           <Col>
-            {this.state.shows && <ShowsTable shows={this.state.shows}/>}
+            {this.props.shows && <ShowsTable shows={this.props.shows}/>}
           </Col>
         </Row>
       </Container> 
