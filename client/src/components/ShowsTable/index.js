@@ -15,7 +15,7 @@ export function ShowsTable({shows}) {
       <tbody>
         {shows.map(show => {
           return (
-            <tr>
+            <tr key={show.showId}>
               <td>{show.startDate}</td>
               <td>{show.title}</td>
               <td>{show.location.venue}</td>
