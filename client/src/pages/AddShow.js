@@ -1,36 +1,18 @@
 import React, { Component, Fragment } from "react";
 import API from "../utils/API";
 import {Container, Row, Col} from 'react-bootstrap';
-import {AddShowForm} from '../components/Forms/AddShowForm';
+import AddShowForm from '../components/Forms/AddShowForm';
 
 class AddShow extends Component {
-  state = {
-    page: "show",
-    artists: [],
-    venues: []
+  constructor(props) {
+    super(props)
+    this.loadShows = this.props.loadShows.bind(this)
+    this.loadVenues = this.props.loadVenues.bind(this)
+    this.loadArtists = this.props.loadArtists.bind(this)
   }
   // Component Mounted
   componentDidMount() {
-    this.loadArtists();
-    this.loadVenues();
-  }
-  // Load Artists
-  loadArtists = () => {
-    API.getArtists().then(
-      res => {
-        console.log(res.data);
-        this.setState({artists: res.data});
-      }
-    )
-  }
-  // Load Venues
-  loadVenues = () => {
-    API.getVenues().then(
-      res => {
-        console.log(res.data);
-        this.setState({venues: res.data});
-      }
-    )
+
   }
   // Render
   render() {
@@ -38,7 +20,14 @@ class AddShow extends Component {
       <Container className="p-3">
         <Row>
           <Col>
-          <AddShowForm />
+          <AddShowForm 
+            shows={this.props.shows}
+            venues={this.props.venues}
+            artists={this.props.artists}
+            loadShows={this.loadShows}
+            loadVenues={this.loadVenues}
+            loadArtists={this.loadArtists}
+          />
           </Col>
         </Row>
       </Container>
