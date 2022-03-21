@@ -8,10 +8,7 @@ class Home extends Component {
     super(props)
     this.loadShows = this.props.loadShows.bind(this)
   }
-
-  componentDidMount = () => {
-    this.loadShows();
-  }
+  
   render() {
     return (
       <Container className="p-3">
