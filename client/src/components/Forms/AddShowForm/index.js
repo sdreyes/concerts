@@ -55,8 +55,8 @@ class AddShowForm extends Component {
               return <option 
               key={venue.venueId} 
               value={venue.venueId}>
-                {venue.venue} - {venue.city},
-                {venue.state ? venue.state : venue.country}
+                {`${venue.venue} - ${venue.city},
+                ${venue.state ? venue.state : venue.country}`}
               </option>
             })}
           </Form.Select>
