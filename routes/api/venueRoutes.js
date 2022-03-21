@@ -14,13 +14,15 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE a venue
-router.post('/', async (req, res) => {
-  try {
-    const venueData = await Venue.create(req.body);
-    res.status(200).json(venueData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
+if (process.env.NODE_ENV !== "production") {
+  router.post('/', async (req, res) => {
+    try {
+      const venueData = await Venue.create(req.body);
+      res.status(200).json(venueData);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+};
 
 module.exports = router;

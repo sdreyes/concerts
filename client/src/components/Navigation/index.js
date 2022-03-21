@@ -8,7 +8,8 @@ function Navigation() {
         <Navbar.Brand>Samby's Shows</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/addshow">Add Show</Nav.Link>
+          {process.env.NODE_ENV !== "production" && 
+            <Nav.Link href="/addshow">Add Show</Nav.Link>}
         </Nav>
       </Container>
     </Navbar>

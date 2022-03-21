@@ -23,7 +23,7 @@ class App extends Component {
   componentDidMount() {
     this.loadArtists();
     this.loadVenues();
-    // this.loadShows();
+    this.loadShows();
   }
   // Load Artists
   loadArtists = () => {
@@ -50,7 +50,6 @@ class App extends Component {
       }
     )
   }
-
   // Render
   render() {
     return (
@@ -58,8 +57,23 @@ class App extends Component {
         <Navigation />
         <Router>
           <Routes>
-            <Route path="/" element={<Home shows={this.state.shows} loadShows={this.loadShows} />}/>
-            <Route path="/addshow" element={<AddShow />}/>
+            <Route path="/" element={
+              <Home 
+                shows={this.state.shows} 
+                loadShows={this.loadShows} 
+              />}
+            />
+            {process.env.NODE_ENV !== "production" && 
+              <Route path="/addshow" element={
+                <AddShow 
+                  shows={this.state.shows}
+                  venues={this.state.venues}
+                  artists={this.state.artists}
+                  loadShows={this.loadShows}
+                  loadArtists={this.loadArtists}
+                  loadVenues={this.loadVenues}
+                />}
+              />}
           </Routes>
         </Router>
       </Fragment>

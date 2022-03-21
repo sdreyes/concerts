@@ -13,13 +13,15 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE a lineup
-router.post('/', async (req, res) => {
-  try {
-    const lineupData = await Lineup.create(req.body);
-    res.status(200).json(lineupData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
+if (process.env.NODE_ENV !== "production") {
+  router.post('/', async (req, res) => {
+    try {
+      const lineupData = await Lineup.create(req.body);
+      res.status(200).json(lineupData);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+};
 
 module.exports = router;
