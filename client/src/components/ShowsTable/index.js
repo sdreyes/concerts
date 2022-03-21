@@ -20,15 +20,8 @@ export function ShowsTable({shows}) {
               <td>{show.title}</td>
               <td>{show.location.venue}</td>
               <td>
-                {show.location.city}
-                {`, `}
-                {
-                  show.location.state ? 
-                    show.location.state + `, `
-                    : ``
-                }
-                {show.location.country}
-                </td>
+                {show.location.city}, {show.location.state ? show.location.state : show.location.country}
+              </td>
             </tr>
           )
         })}
