@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       venues: [],
       artists: [],
-      shows: []
+      shows: [],
+      attendees: []
     }
     this.loadShows = this.loadShows.bind(this)
   }
@@ -24,6 +25,7 @@ class App extends Component {
     this.loadArtists();
     this.loadVenues();
     this.loadShows();
+    this.loadAttendees();
   }
   // Load Artists
   loadArtists = () => {
@@ -50,6 +52,14 @@ class App extends Component {
       }
     )
   }
+  // Load Attendees
+  loadAttendees = () => {
+    API.getAttendees().then(
+      res => {
+        this.setState({attendees: res.data});
+      }
+    )
+  }
   // Render
   render() {
     return (
@@ -69,9 +79,11 @@ class App extends Component {
                   shows={this.state.shows}
                   venues={this.state.venues}
                   artists={this.state.artists}
+                  attendees={this.state.attendees}
                   loadShows={this.loadShows}
                   loadArtists={this.loadArtists}
                   loadVenues={this.loadVenues}
+                  loadAttendees={this.loadAttendees}
                 />}
               />}
           </Routes>

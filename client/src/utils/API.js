@@ -12,6 +12,10 @@ const API = {
   getVenues: function() {
     console.log("Getting venues...");
     return axios.get("/api/venues");
+  },
+  getAttendees: function() {
+    console.log("Getting attendees...");
+    return axios.get("/api/attendees");
   }
 }
 

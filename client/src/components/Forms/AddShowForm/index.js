@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from "react";
-import { Form, Button, InputGroup, Col, Row } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
+import Select from 'react-select';
 
 class AddShowForm extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class AddShowForm extends Component {
     this.loadShows = this.props.loadShows.bind(this);
     this.loadVenues = this.props.loadVenues.bind(this);
     this.loadArtists = this.props.loadArtists.bind(this);
+    this.loadAttendees = this.props.loadAttendees.bind(this);
     this.state={
       newShow: {
         title: "",
@@ -21,20 +23,24 @@ class AddShowForm extends Component {
         isHeadliner: false,
         setlist: null
       }],
-      audience: [{
-        showId: null,
-        attendeeId: 1
-      },
-      {
-        showId: null,
-        attendeeId: 2
-      }]
+      audience: [],
+      selectedAudience: [
+        {
+          value: 1,
+          label: "Shelby Reyes"
+        },
+        {
+          value: 2,
+          label: "Samuel Kaplan"
+        }
+      ]
     };
   };
   // Component Mounted
   componentDidMount() {
     console.log(this.props.artists);
     console.log(this.props.venues);
+    console.log(this.props.attendees);
   }
 
   handleShowChange(e) {
@@ -43,7 +49,6 @@ class AddShowForm extends Component {
       newShow[e.target.name] = e.target.value;
       return { newShow };
     }, () => {
-      console.log(this.state.newShow);
     })
   }
 
@@ -53,7 +58,6 @@ class AddShowForm extends Component {
       newLineup[i][e.target.name] = e.target.value;
       return { newLineup };
     }, () => {
-      console.log(this.state.newLineup);
     });
   };
 
@@ -63,7 +67,6 @@ class AddShowForm extends Component {
       newLineup[i][e.target.name] = e.target.checked;
       return { newLineup };
     }, () => {
-      console.log(this.state.newLineup);
     });
   };
 
@@ -84,70 +87,90 @@ class AddShowForm extends Component {
 
   removeArtistFromLineup(e, i) {
     e.preventDefault();
-    console.log(`index ${i}`);
     var newLineup = [...this.state.lineup];
-    console.log(newLineup);
     newLineup.splice(i, 1);
-    console.log(newLineup);
     this.setState({lineup: newLineup});
   };
 
+  handleAudienceChange = values => {
+    console.log(values);
+    this.setState({selectedAudience: values});
+  }
+
   // Render
   render() {
+    const audienceSelectOptions=this.props.attendees && this.props.attendees.map(attendee => (
+      {
+        value: attendee.attendeeId,
+        label: attendee.name
+      }
+    ))
     return (
       <Form>
-        <h1>Add New Show</h1>
-        {/* SHOW TITLE */}
-        <Form.Group className="mb-2" controlId="showTitle">
-          <Form.Label>Title*</Form.Label>
-          <Form.Control type="text" name="title" onChange={e => this.handleShowChange(e)} />
-        </Form.Group>
-        {/* SHOW VENUE */}
-        <Form.Group className="mb-2" controlId="showVenue">
-          <Form.Label>Venue*</Form.Label>
-          <Form.Select name="venueId" onChange={e => this.handleShowChange(e)}>
-            <option value="">-- Select a Venue --</option>
-            {this.props.venues && this.props.venues.map(venue => {
-              return <option 
-              key={venue.venueId} 
-              value={venue.venueId}>
-                {`${venue.venue} - ${venue.city},
-                ${venue.state ? venue.state : venue.country}`}
-              </option>
-            })}
-          </Form.Select>
-          <Form.Text className="text-muted">
-            <a href="#placeholder">Don't see the venue you need?</a>
-          </Form.Text>
-        </Form.Group>
-        {/* DATES */}
+        <h2>Add A New Show</h2>
         <Row>
-          {/* START DATE */}
-          <Col xs={6} md={4} lg={3} xl={2}>
-            <Form.Group className="mb-2" controlId="showStartDate">
-              <Form.Label>Start Date*</Form.Label>
-              <Form.Control type="date" name="startDate" onChange={e => this.handleShowChange(e)} />
-            </Form.Group>
+          <Col>
+            <Row>
+              <Col lg>
+                {/* SHOW TITLE */}
+                <Form.Group className="mb-2" controlId="showTitle">
+                  <Form.Label>Title*</Form.Label>
+                  <Form.Control type="text" name="title" onChange={e => this.handleShowChange(e)} />
+                </Form.Group>
+              </Col>
+              <Col lg>
+                {/* SHOW VENUE */}
+                <Form.Group className="mb-2" controlId="showVenue">
+                  <Form.Label>Venue*</Form.Label>
+                  <Form.Select name="venueId" onChange={e => this.handleShowChange(e)}>
+                    <option value="">-- Select a Venue --</option>
+                    {this.props.venues && this.props.venues.map(venue => {
+                      return <option 
+                      key={venue.venueId} 
+                      value={venue.venueId}>
+                        {`${venue.venue} - ${venue.city},
+                        ${venue.state ? venue.state : venue.country}`}
+                      </option>
+                    })}
+                  </Form.Select>
+                  <Form.Text className="text-muted">
+                    <a href="#placeholder">Don't see the venue you need?</a>
+                  </Form.Text>
+                </Form.Group>
+              </Col>
+            </Row>
+            {/* DATES */}
+            <Row>
+              {/* START DATE */}
+              <Col>
+                <Form.Group className="mb-2" controlId="showStartDate">
+                  <Form.Label>Start Date*</Form.Label>
+                  <Form.Control type="date" name="startDate" onChange={e => this.handleShowChange(e)} />
+                </Form.Group>
+              </Col>
+              {/* END DATE */}
+              <Col>
+                <Form.Group className="mb-2" controlId="showEndDate">
+                  <Form.Label>End Date</Form.Label>
+                  <Form.Control type="date" name="endDate" onChange={e => this.handleShowChange(e)} />
+                  <Form.Text className="text-muted">
+                    Leave blank if one-day show
+                  </Form.Text>
+                </Form.Group>
+              </Col>
+            </Row>
           </Col>
-          {/* END DATE */}
-          <Col xs={6} md={4} lg={3} xl={2}>
-            <Form.Group className="mb-2" controlId="showEndDate">
-              <Form.Label>End Date</Form.Label>
-              <Form.Control type="date" name="endDate" onChange={e => this.handleShowChange(e)} />
+          <Col>
+            {/* SHOW NOTES */}
+            <Form.Group className="mb-2" controlId="showNotes">
+              <Form.Label>Show Notes</Form.Label>
+              <Form.Control as="textarea" rows={5} name="notes" onChange={e => this.handleShowChange(e)} />
               <Form.Text className="text-muted">
-                Leave blank if one-day show
+                Notes about the overall show, not setlists
               </Form.Text>
             </Form.Group>
           </Col>
         </Row>
-        {/* SHOW NOTES */}
-        <Form.Group className="mb-2" controlId="showNotes">
-          <Form.Label>Show Notes</Form.Label>
-          <Form.Control as="textarea" rows={3} name="notes" onChange={e => this.handleShowChange(e)} />
-          <Form.Text className="text-muted">
-            Notes about the overall show, not setlists
-          </Form.Text>
-        </Form.Group>
         {/* ARTISTS */}
         <h3 className="mb-2">Lineup</h3>
         {this.state.lineup.map((artist, i) => {
@@ -187,8 +210,20 @@ class AddShowForm extends Component {
         {/* ADD AN ARTIST */}
         <a href="#placeholder" onClick={e => this.addArtistToLineup(e)}>Add another artist to the lineup</a>
         {/* AUDIENCE */}
-        <h3 className="mb-2">Audience</h3>
-        
+        <h3 className="mb-2 mt-2">Audience</h3>
+        <Form.Group className="mb-2" controlId="showSetlist">
+          <Form.Label>Attendees</Form.Label>
+          <Select name="audience"
+            options={audienceSelectOptions}
+            blurInputOnSelect={false}
+            closeMenuOnSelect={false}
+            closeMenuOnScroll={false}
+            isClearable={false}
+            isSearchable={true}
+            isMulti={true}
+            value={this.state.selectedAudience}
+            onChange={this.handleAudienceChange}/>
+        </Form.Group>
       </Form>
     )
   }

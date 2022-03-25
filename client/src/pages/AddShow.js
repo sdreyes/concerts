@@ -9,6 +9,7 @@ class AddShow extends Component {
     this.loadShows = this.props.loadShows.bind(this)
     this.loadVenues = this.props.loadVenues.bind(this)
     this.loadArtists = this.props.loadArtists.bind(this)
+    this.loadAttendees = this.props.loadAttendees.bind(this);
   }
   // Component Mounted
   componentDidMount() {
@@ -24,9 +25,11 @@ class AddShow extends Component {
             shows={this.props.shows}
             venues={this.props.venues}
             artists={this.props.artists}
+            attendees={this.props.attendees}
             loadShows={this.loadShows}
             loadVenues={this.loadVenues}
             loadArtists={this.loadArtists}
+            loadAttendees={this.loadAttendees}
           />
           </Col>
         </Row>
