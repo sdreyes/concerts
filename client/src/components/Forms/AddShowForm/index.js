@@ -5,6 +5,7 @@ import Select from 'react-select';
 import AddVenueModal from '../AddVenueModal';
 import AddArtistModal from '../AddArtistModal';
 import AddAttendeeModal from '../AddAttendeeModal';
+import API from "../../../utils/API";
 
 class AddShowForm extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class AddShowForm extends Component {
   handleShowChange(e) {
     let newShow = {...this.state.newShow};
     newShow[e.target.name] = e.target.value;
-    this.setState({newShow});
+    this.setState({newShow}, () => console.log(this.state.newShow));
   }
 
   handleLineupChange(e, i) {
@@ -103,6 +104,67 @@ class AddShowForm extends Component {
       [modal]: this.state[modal] === false
     })
   };
+
+  resetState = () => {
+    this.setState({
+      newShow: {
+        title: "",
+        venueId: null,
+        startDate: null,
+        endDate: null,
+        notes: ""
+      },
+      lineup: [{
+        artistId: null,
+        showId: null,
+        isHeadliner: false,
+        setlist: null
+      }],
+      audience: [1, 2],
+      selectedAudience: [
+        {
+          value: 1,
+          label: "Shelby Reyes"
+        },
+        {
+          value: 2,
+          label: "Sam Kaplan"
+        }
+      ],
+      showVenueModal: false,
+      showArtistModal: false,
+      showAttendeeModal: false
+    })
+  }
+
+  createNewShow = () => {
+    API.createShow(this.state.newShow).then(
+      res => {
+        const showId = res.data.showId;
+        const audience = this.state.audience.map(attendeeId => {
+          return {
+           showId: showId,
+           attendeeId: attendeeId
+          }
+        })
+        console.log(audience);
+        API.createAudience(audience).then(
+          res => {
+            API.createLineup(this.state.lineup.map(artist => {
+              return {
+                showId: showId,
+                artistId: artist.artistId,
+                isHeadliner: artist.isHeadliner,
+                setlist: artist.setlist
+              }
+            })).then(
+              this.resetState()
+            )
+          }
+        )
+      }
+    )
+  }
 
   // Render
   render() {
