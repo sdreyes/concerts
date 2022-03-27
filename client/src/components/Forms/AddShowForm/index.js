@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component, Fragment} from "react";
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import AddVenueModal from '../AddVenueModal';
 import AddArtistModal from '../AddArtistModal';
+import AddAttendeeModal from '../AddAttendeeModal';
 
 class AddShowForm extends Component {
   constructor(props) {
@@ -33,11 +35,12 @@ class AddShowForm extends Component {
         },
         {
           value: 2,
-          label: "Samuel Kaplan"
+          label: "Sam Kaplan"
         }
       ],
       showVenueModal: false,
-      showArtistModal: false
+      showArtistModal: false,
+      showAttendeeModal: false
     };
   };
   // Component Mounted
@@ -138,7 +141,7 @@ class AddShowForm extends Component {
                     })}
                   </Form.Select>
                   <Form.Text className="text-muted">
-                    <a href="#placeholder" name="showVenueModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the venue you need?</a>
+                    <a href="#" name="showVenueModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the venue you need?</a>
                     <AddVenueModal 
                       show={this.state.showVenueModal} 
                       handleClose={this.showOrHideModal}
@@ -204,7 +207,7 @@ class AddShowForm extends Component {
                   })}
                 </Form.Select>
                 <Form.Text className="text-muted">
-                  <a href="#placeholder" name="showArtistModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the artist you need?</a>
+                  <a href="#" name="showArtistModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the artist you need?</a>
                   <AddArtistModal 
                     show={this.state.showArtistModal} 
                     handleClose={this.showOrHideModal}
@@ -243,9 +246,18 @@ class AddShowForm extends Component {
             onChange={this.handleAudienceChange}
           />
           <Form.Text className="text-muted">
-            <a href="#placeholder">Don't see the attendee you need?</a>
+            <a href="#" name="showAttendeeModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the person you need?</a>
+            <AddAttendeeModal 
+              show={this.state.showAttendeeModal} 
+              handleClose={this.showOrHideModal}
+              loadAttendees={this.loadAttendees}
+              attendees={this.props.attendees}
+            />
           </Form.Text>
         </Form.Group>
+        <Button variant="primary" className="float-end" onClick={() => this.createNewShow()}>
+          Create Show
+        </Button>
       </Form>
     )
   }

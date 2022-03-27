@@ -20,17 +20,10 @@ class AddArtistModal extends Component {
     console.log("checking...")
     let dupes = this.props.artists.filter(artist => newArtistName === artist.artist);
     console.log(dupes);
-    if (dupes.length) {
-      this.setState({
-        artistAlreadyExists: true,
-        dupes: dupes
-      })
-    } else {
-      this.setState({
-        artistAlreadyExists: false,
-        dupes: dupes
-      }, () => console.log(this.state))
-    }
+    this.setState({
+      artistAlreadyExists: dupes.length !== 0,
+      dupes: dupes
+    })
   }
 
   handleArtistChange(e) {
@@ -46,16 +39,7 @@ class AddArtistModal extends Component {
       res => {
         this.props.loadArtists()
         this.props.handleClose("showArtistModal")
-        this.setState({
-          artist: {
-            artist: {
-              artist: "",
-              notes: ""
-            },
-            artistAlreadyExists: false,
-            dupes: []
-          }
-        })
+        this.resetState();
       }
     )
   }
