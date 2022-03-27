@@ -10,9 +10,9 @@ class AddVenueModal extends Component {
 
     this.state = {
       venue: {
-        venue: null,
-        city: null,
-        state: null,
+        venue: "",
+        city: "",
+        state: "",
         country: "United States"
       }
     };
@@ -45,25 +45,32 @@ class AddVenueModal extends Component {
       API.createVenue(this.state.venue).then(
         res => {
           this.props.loadVenues()
-          this.props.handleClose()
-          this.setState({
-            venue: {
-              venue: null,
-              city: null,
-              state: null,
-              country: "United States"
-            }
-          })
+          this.props.handleClose("showVenueModal")
+          this.resetState();
         }
       )
     }
+  }
+
+  resetState = () => {
+    this.setState({
+      venue: {
+        venue: "",
+        city: "",
+        state: "",
+        country: "United States"
+      }
+    })
   }
 
   render() {
     const stateOptions = locations.states.map(state => ({ value: state.abbreviation, label: state.name }));
     const countryOptions = locations.countries.map(country => ({ value: country, label: country }));
     return(
-      <Modal show={this.props.show} size="lg" onHide={e => this.props.handleClose()}>
+      <Modal show={this.props.show} size="lg" onHide={e => {
+        this.resetState();
+        this.props.handleClose("showVenueModal")
+      }}>
         <Modal.Header>
           <Modal.Title>Create a New Venue</Modal.Title>
         </Modal.Header>
@@ -71,13 +78,13 @@ class AddVenueModal extends Component {
           <Form>
             <Form.Group className="mb-3" controlId="venueName">
               <Form.Label>Venue Name*</Form.Label>
-              <Form.Control type="text" name="venue" onChange={e => this.handleVenueChange(e)} />
+              <Form.Control type="text" name="venue" value={this.state.venue.venue} onChange={e => this.handleVenueChange(e)} />
             </Form.Group>
             <Row>
               <Col>
                 <Form.Group className="mb-3" controlId="venueCity">
                   <Form.Label>City*</Form.Label>
-                  <Form.Control type="text" name="city" onChange={e => this.handleVenueChange(e)} />
+                  <Form.Control type="text" name="city" value={this.state.venue.city} onChange={e => this.handleVenueChange(e)} />
                 </Form.Group>
               </Col>
               <Col>

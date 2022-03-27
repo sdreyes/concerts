@@ -2,6 +2,7 @@ import React, {Component, Fragment} from "react";
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import AddVenueModal from '../AddVenueModal';
+import AddArtistModal from '../AddArtistModal';
 
 class AddShowForm extends Component {
   constructor(props) {
@@ -35,7 +36,8 @@ class AddShowForm extends Component {
           label: "Samuel Kaplan"
         }
       ],
-      showVenueModal: false
+      showVenueModal: false,
+      showArtistModal: false
     };
   };
   // Component Mounted
@@ -93,9 +95,9 @@ class AddShowForm extends Component {
     });
   };
 
-  showOrHideVenueModal = () => {
+  showOrHideModal = modal => {
     this.setState({
-      showVenueModal: this.state.showVenueModal ? false : true
+      [modal]: this.state[modal] === false
     })
   };
 
@@ -136,10 +138,10 @@ class AddShowForm extends Component {
                     })}
                   </Form.Select>
                   <Form.Text className="text-muted">
-                    <a href="#placeholder" onClick={e => this.showOrHideVenueModal(e)}>Don't see the venue you need?</a>
+                    <a href="#placeholder" name="showVenueModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the venue you need?</a>
                     <AddVenueModal 
                       show={this.state.showVenueModal} 
-                      handleClose={this.showOrHideVenueModal}
+                      handleClose={this.showOrHideModal}
                       loadVenues={this.loadVenues}
                       venues={this.props.venues}
                     />
@@ -202,7 +204,13 @@ class AddShowForm extends Component {
                   })}
                 </Form.Select>
                 <Form.Text className="text-muted">
-                  <a href="#placeholder">Don't see the artist you need?</a>
+                  <a href="#placeholder" name="showArtistModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the artist you need?</a>
+                  <AddArtistModal 
+                    show={this.state.showArtistModal} 
+                    handleClose={this.showOrHideModal}
+                    loadArtists={this.loadArtists}
+                    artists={this.props.artists}
+                  />
                 </Form.Text>
               </Form.Group>
               {/* ARTIST HEADLINER */}
