@@ -28,7 +28,13 @@ const API = {
   },
   createShow: function(data) {
     return axios.post("/api/shows", data);
-  }
+  },
+  createAudience: function(data) {
+    return axios.post("/api/audience", data);
+  },
+  createLineup: function(data) {
+    return axios.post("/api/lineup", data);
+  },
 }
 
 export default API;
