@@ -19,6 +19,9 @@ const API = {
   },
   createVenue: function(data) {
     return axios.post("/api/venues", data);
+  },
+  createArtist: function(data) {
+    return axios.post("/api/artists", data);
   }
 }
 
