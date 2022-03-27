@@ -22,6 +22,12 @@ const API = {
   },
   createArtist: function(data) {
     return axios.post("/api/artists", data);
+  },
+  createAttendee: function(data) {
+    return axios.post("/api/attendees", data);
+  },
+  createShow: function(data) {
+    return axios.post("/api/shows", data);
   }
 }
 
