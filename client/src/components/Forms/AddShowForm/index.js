@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
+import AddVenueModal from '../AddVenueModal';
 
 class AddShowForm extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class AddShowForm extends Component {
         isHeadliner: false,
         setlist: null
       }],
-      audience: [],
+      audience: [1, 2],
       selectedAudience: [
         {
           value: 1,
@@ -33,7 +34,8 @@ class AddShowForm extends Component {
           value: 2,
           label: "Samuel Kaplan"
         }
-      ]
+      ],
+      showVenueModal: false
     };
   };
   // Component Mounted
@@ -41,33 +43,25 @@ class AddShowForm extends Component {
     console.log(this.props.artists);
     console.log(this.props.venues);
     console.log(this.props.attendees);
+    console.log(this.state.audience)
   }
 
   handleShowChange(e) {
-    this.setState(prevState => {
-      let newShow = Object.assign({}, prevState.newShow);
-      newShow[e.target.name] = e.target.value;
-      return { newShow };
-    }, () => {
-    })
+    let newShow = {...this.state.newShow};
+    newShow[e.target.name] = e.target.value;
+    this.setState({newShow});
   }
 
   handleLineupChange(e, i) {
-    this.setState(prevState => {
-      let newLineup = Object.assign({}, prevState.lineup);
-      newLineup[i][e.target.name] = e.target.value;
-      return { newLineup };
-    }, () => {
-    });
+    let lineup = [...this.state.lineup];
+    lineup[i][e.target.name] = e.target.value;
+    this.setState({lineup});
   };
 
   handleHeadlinerChange(e, i) {
-    this.setState(prevState => {
-      let newLineup = Object.assign({}, prevState.lineup);
-      newLineup[i][e.target.name] = e.target.checked;
-      return { newLineup };
-    }, () => {
-    });
+    let lineup = [...this.state.lineup];
+    lineup[i][e.target.name] = e.target.checked;
+    this.setState({lineup});
   };
 
   addArtistToLineup(e) {
@@ -93,9 +87,17 @@ class AddShowForm extends Component {
   };
 
   handleAudienceChange = values => {
-    console.log(values);
-    this.setState({selectedAudience: values});
-  }
+    this.setState({
+      selectedAudience: values,
+      audience: values.map(a => a.value)
+    });
+  };
+
+  showOrHideVenueModal = () => {
+    this.setState({
+      showVenueModal: this.state.showVenueModal ? false : true
+    })
+  };
 
   // Render
   render() {
@@ -134,7 +136,13 @@ class AddShowForm extends Component {
                     })}
                   </Form.Select>
                   <Form.Text className="text-muted">
-                    <a href="#placeholder">Don't see the venue you need?</a>
+                    <a href="#placeholder" onClick={e => this.showOrHideVenueModal(e)}>Don't see the venue you need?</a>
+                    <AddVenueModal 
+                      show={this.state.showVenueModal} 
+                      handleClose={this.showOrHideVenueModal}
+                      loadVenues={this.loadVenues}
+                      venues={this.props.venues}
+                    />
                   </Form.Text>
                 </Form.Group>
               </Col>
@@ -173,40 +181,42 @@ class AddShowForm extends Component {
         </Row>
         {/* ARTISTS */}
         <h3 className="mb-2">Lineup</h3>
-        {this.state.lineup.map((artist, i) => {
-          return <Fragment key={i}>
-            <h5>
-              {`Artist #${i+1} `}
-              {/* REMOVE AN ARTIST */}
-              {i !== 0 && <Button variant="danger" size="sm" onClick={e => this.removeArtistFromLineup(e, i)}>X</Button>}
-            </h5>
-            {/* ARTIST NAME */}
-            <Form.Group className="mb-1" controlId="showArtist">
-              <Form.Select name="artistId" value={artist.artistId || ""} onChange={e => this.handleLineupChange(e, i)}>
-              <option value="">-- Select an Artist --</option>
-                {this.props.artists && this.props.artists.map(artist => {
-                  return <option 
-                  key={artist.artistId} 
-                  value={artist.artistId}>
-                    {artist.artist}
-                  </option>
-                })}
-              </Form.Select>
-              <Form.Text className="text-muted">
-                <a href="#placeholder">Don't see the artist you need?</a>
-              </Form.Text>
-            </Form.Group>
-            {/* ARTIST HEADLINER */}
-            <Form.Group className="mb-2" controlId="showHeadliner">
-              <Form.Check inline type="checkbox" label="Headliner" name="isHeadliner" checked={artist.isHeadliner} onChange={e => this.handleHeadlinerChange(e, i)}/>
-            </Form.Group>
-            {/* ARTIST SETLIST */}
-            <Form.Group className="mb-2" controlId="showSetlist">
-              <Form.Label>Setlist</Form.Label>
-              <Form.Control as="textarea" rows={3} name="setlist" value={artist.setlist || ""} onChange={e => this.handleLineupChange(e, i)}/>
-            </Form.Group>
-          </Fragment>
-        })}
+        <Row>
+          {this.state.lineup.map((artist, i) => {
+            return <Col sm={6} md={4} key={i}>
+              <h5>
+                {`Artist #${i+1} `}
+                {/* REMOVE AN ARTIST */}
+                {i !== 0 && <i className="bi bi-x text-danger" onClick={e => this.removeArtistFromLineup(e, i)}></i>}
+              </h5>
+              {/* ARTIST NAME */}
+              <Form.Group className="mb-1" controlId="showArtist">
+                <Form.Select name="artistId" value={artist.artistId || ""} onChange={e => this.handleLineupChange(e, i)}>
+                <option value="">-- Select an Artist --</option>
+                  {this.props.artists && this.props.artists.map(artist => {
+                    return <option 
+                    key={artist.artistId} 
+                    value={artist.artistId}>
+                      {artist.artist}
+                    </option>
+                  })}
+                </Form.Select>
+                <Form.Text className="text-muted">
+                  <a href="#placeholder">Don't see the artist you need?</a>
+                </Form.Text>
+              </Form.Group>
+              {/* ARTIST HEADLINER */}
+              <Form.Group className="mb-2" controlId="showHeadliner">
+                <Form.Check inline type="checkbox" label="Headliner" name="isHeadliner" checked={artist.isHeadliner} onChange={e => this.handleHeadlinerChange(e, i)}/>
+              </Form.Group>
+              {/* ARTIST SETLIST */}
+              <Form.Group className="mb-2" controlId="showSetlist">
+                <Form.Label>Setlist</Form.Label>
+                <Form.Control as="textarea" rows={3} name="setlist" value={artist.setlist || ""} onChange={e => this.handleLineupChange(e, i)}/>
+              </Form.Group>
+            </Col>
+          })}
+        </Row>
         {/* ADD AN ARTIST */}
         <a href="#placeholder" onClick={e => this.addArtistToLineup(e)}>Add another artist to the lineup</a>
         {/* AUDIENCE */}
@@ -222,7 +232,11 @@ class AddShowForm extends Component {
             isSearchable={true}
             isMulti={true}
             value={this.state.selectedAudience}
-            onChange={this.handleAudienceChange}/>
+            onChange={this.handleAudienceChange}
+          />
+          <Form.Text className="text-muted">
+            <a href="#placeholder">Don't see the attendee you need?</a>
+          </Form.Text>
         </Form.Group>
       </Form>
     )
