@@ -18,7 +18,7 @@ class AddArtistModal extends Component {
 
   artistAlreadyExists = (newArtistName) => {
     console.log("checking...")
-    let dupes = this.props.artists.filter(artist => newArtistName === artist.artist);
+    let dupes = this.props.artists.filter(artist => newArtistName.toLowerCase() === artist.artist.toLowerCase());
     console.log(dupes);
     this.setState({
       artistAlreadyExists: dupes.length !== 0,
@@ -68,7 +68,7 @@ class AddArtistModal extends Component {
           <Form>
             <Form.Group className="mb-3" controlId="artist">
               <Form.Label>Artist*</Form.Label>
-              <Form.Control type="text" name="artist" onChange={e => this.handleArtistChange(e)} />
+              <Form.Control type="text" name="artist" autoComplete="off" onChange={e => this.handleArtistChange(e)} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="notes">
               <Form.Label>Notes</Form.Label>
