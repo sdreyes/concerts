@@ -35,8 +35,8 @@ class AddVenueModal extends Component {
 
   createNewVenue = () => {
     let venueAlreadyExists = this.props.venues.find(
-      venue => venue.venue === this.state.venue.venue &&
-      venue.city === this.state.venue.city
+      venue => venue.venue.toLowerCase() === this.state.venue.venue.toLowerCase() &&
+      venue.city.toLowerCase() === this.state.venue.city.toLowerCase()
     )
     console.log(venueAlreadyExists);
     if (venueAlreadyExists) {
@@ -78,7 +78,7 @@ class AddVenueModal extends Component {
           <Form>
             <Form.Group className="mb-3" controlId="venueName">
               <Form.Label>Venue Name*</Form.Label>
-              <Form.Control type="text" name="venue" value={this.state.venue.venue} onChange={e => this.handleVenueChange(e)} />
+              <Form.Control type="text" name="venue" autoComplete="off" value={this.state.venue.venue} onChange={e => this.handleVenueChange(e)} />
             </Form.Group>
             <Row>
               <Col>
