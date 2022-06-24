@@ -22,7 +22,10 @@ router.get('/', async (req, res) => {
           model: Artist,
           through: {
             Lineup,
-            attributes: ['isHeadliner', 'setlist']
+            attributes: ['isHeadliner', 'setlist'],
+            order: [
+              ['sortOrder', 'ASC']
+            ]
           },
           as: 'artistLineup'
         },

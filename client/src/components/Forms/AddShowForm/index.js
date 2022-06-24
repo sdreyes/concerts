@@ -82,14 +82,14 @@ class AddShowForm extends Component {
           setlist: null
         }
       ]
-    });
+    }, () => console.log(this.state.lineup));
   };
 
   removeArtistFromLineup(e, i) {
     e.preventDefault();
     var newLineup = [...this.state.lineup];
     newLineup.splice(i, 1);
-    this.setState({lineup: newLineup});
+    this.setState({lineup: newLineup}, () => console.log(this.state.lineup));
   };
 
   handleAudienceChange = values => {
@@ -138,6 +138,7 @@ class AddShowForm extends Component {
   }
 
   createNewShow = () => {
+
     API.createShow(this.state.newShow).then(
       res => {
         const showId = res.data.showId;
@@ -150,12 +151,13 @@ class AddShowForm extends Component {
         console.log(audience);
         API.createAudience(audience).then(
           res => {
-            API.createLineup(this.state.lineup.map(artist => {
+            API.createLineup(this.state.lineup.map((artist, i) => {
               return {
                 showId: showId,
                 artistId: artist.artistId,
                 isHeadliner: artist.isHeadliner,
-                setlist: artist.setlist
+                setlist: artist.setlist,
+                sortOrder: i
               }
             })).then(
               this.resetState()

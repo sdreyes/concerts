@@ -37,6 +37,10 @@ Lineup.init(
     setlist: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    sortOrder: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   },
   {
