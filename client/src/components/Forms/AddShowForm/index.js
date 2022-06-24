@@ -92,6 +92,14 @@ class AddShowForm extends Component {
     this.setState({lineup: newLineup}, () => console.log(this.state.lineup));
   };
 
+  handleArtistSelect(e, i) {
+    console.log(e);
+    console.log(i);
+    let lineup = [...this.state.lineup];
+    lineup[i].artistId = e.value;
+    this.setState({lineup}, () => console.log(this.state.lineup));
+  };
+
   handleAudienceChange = values => {
     this.setState({
       selectedAudience: values,
@@ -174,6 +182,12 @@ class AddShowForm extends Component {
       {
         value: attendee.attendeeId,
         label: attendee.name
+      }
+    ))
+    const artistSelectOptions=this.props.artists && this.props.artists.map(artist => (
+      {
+        value: artist.artistId,
+        label: artist.artist
       }
     ))
     return (
@@ -261,16 +275,23 @@ class AddShowForm extends Component {
               </h5>
               {/* ARTIST NAME */}
               <Form.Group className="mb-1" controlId="showArtist">
-                <Form.Select name="artistId" value={artist.artistId || ""} onChange={e => this.handleLineupChange(e, i)}>
-                <option value="">-- Select an Artist --</option>
-                  {this.props.artists && this.props.artists.map(artist => {
-                    return <option 
-                    key={artist.artistId} 
-                    value={artist.artistId}>
-                      {artist.artist}
-                    </option>
-                  })}
-                </Form.Select>
+                <Select key={artist.artistId} 
+                  name="artistId"
+                  options={artistSelectOptions}
+                  blurInputOnSelect={false}
+                  closeMenuOnSelect={false}
+                  closeMenuOnScroll={false}
+                  isClearable={false}
+                  isSearchable={true}
+                  isMulti={false}
+                  value={
+                    artist.artistId ? {
+                      value: artist.artistId,
+                      label: artistSelectOptions.find(a => a.value === artist.artistId).label
+                    } : ""
+                  }
+                  onChange={e => this.handleArtistSelect(e, i)}
+                />
                 <Form.Text className="text-muted">
                   <a href="#" name="showArtistModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the artist you need?</a>
                   <AddArtistModal 
