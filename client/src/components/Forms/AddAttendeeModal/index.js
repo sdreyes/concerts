@@ -68,7 +68,7 @@ class AddAttendeeModal extends Component {
           <Form>
             <Form.Group className="mb-3" controlId="attendeeName">
               <Form.Label>Attendee*</Form.Label>
-              <Form.Control type="text" name="name" onChange={e => this.handleAttendeeChange(e)} />
+              <Form.Control type="text" name="name" autoComplete="off" onChange={e => this.handleAttendeeChange(e)} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="notes">
               <Form.Label>Notes</Form.Label>
