@@ -32,6 +32,7 @@ router.get('/', async (req, res) => {
         }
       ]
     });
+    console.log(showData);
     res.status(200).json(showData);
   } catch (err) {
     res.status(500).json(err);
@@ -66,6 +67,8 @@ router.get('/:showId', async (req, res) => {
         }
       ]
     });
+    console.log("data")
+    console.log(showData);
     res.status(200).json(showData);
   } catch (err) {
     res.status(500).json(err);

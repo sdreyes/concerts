@@ -4,9 +4,10 @@ import {
   Route,
   Routes
 } from "react-router-dom";
-import Navigation from "./components/Navigation"
-import AddShow from "./pages/AddShow.js"
-import Home from "./pages/Home.js"
+import Navigation from "./components/Navigation";
+import AddShow from "./pages/AddShow.js";
+import Home from "./pages/Home.js";
+import ShowDetail from "./pages/ShowDetail";
 import API from "./utils/API";
 
 class App extends Component {
@@ -86,6 +87,7 @@ class App extends Component {
                   loadAttendees={this.loadAttendees}
                 />}
               />}
+              <Route path="/show/:showId" element={<ShowDetail/>} />
           </Routes>
         </Router>
       </Fragment>

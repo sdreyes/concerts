@@ -10,6 +10,7 @@ class Home extends Component {
   }
   
   render() {
+    console.log(this.props.shows);
     return (
       <Container className="p-3">
         <Row>

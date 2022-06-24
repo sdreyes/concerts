@@ -5,6 +5,11 @@ const API = {
     console.log("Getting shows...");
     return axios.get("/api/shows");
   },
+  getShowDetails: function(showId) {
+    console.log("getting show details...");
+    console.log("/api/shows/" + showId);
+    return axios.get("/api/shows/" + showId);
+  },
   getArtists: function() {
     console.log("Getting artists...");
     return axios.get("/api/artists");
