@@ -17,7 +17,11 @@ export function ShowsTable({shows}) {
           return (
             <tr key={show.showId}>
               <td>{show.startDate}</td>
-              <td>{show.title}</td>
+              <td>
+                <a className="link-dark" href={`/show/${show.showId}`}>
+                  {show.title}
+                </a>
+              </td>
               <td>{show.location.venue}</td>
               <td>
                 {`${show.location.city}, ${show.location.state ? show.location.state : show.location.country}`}
