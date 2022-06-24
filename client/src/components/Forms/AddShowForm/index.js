@@ -250,6 +250,7 @@ class AddShowForm extends Component {
         </Row>
         {/* ARTISTS */}
         <h3 className="mb-2">Lineup</h3>
+        <p className="text-muted"><small>List artists in the order they performed (e.g. the first opener will be Artist #1)</small></p>
         <Row>
           {this.state.lineup.map((artist, i) => {
             return <Col sm={6} md={4} key={i}>
