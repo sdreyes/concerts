@@ -279,7 +279,7 @@ class AddShowForm extends Component {
                   name="artistId"
                   options={artistSelectOptions}
                   blurInputOnSelect={false}
-                  closeMenuOnSelect={false}
+                  closeMenuOnSelect={true}
                   closeMenuOnScroll={false}
                   isClearable={false}
                   isSearchable={true}
