@@ -23,9 +23,6 @@ router.get('/', async (req, res) => {
           through: {
             Lineup,
             attributes: ['isHeadliner', 'setlist'],
-            order: [
-              ['sortOrder', 'ASC']
-            ]
           },
           as: 'artistLineup'
         },
@@ -47,6 +44,27 @@ router.get('/:showId', async (req, res) => {
   try {
     const showData = await Show.findByPk(req.params.showId, {
       attributes: ['showId', 'title', 'startDate', 'endDate', 'notes'],
+      order: [
+        // Sort by AttendeeId
+        [
+          {
+            model: Attendee, 
+            as: 'attendees'
+          },
+          'attendeeId', 
+          'ASC'
+        ],
+        // Sort by the order the artist played (openers first)
+        [
+          {
+            model: Artist, 
+            as: 'artistLineup'
+          },
+          Lineup,
+          'sortOrder', 
+          'ASC'
+        ]
+      ],
       include: [
         {
           model: Attendee,
