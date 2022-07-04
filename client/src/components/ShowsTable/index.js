@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
 
 export function ShowsTable({shows}) {
   return(
@@ -16,7 +17,7 @@ export function ShowsTable({shows}) {
         {shows.map(show => {
           return (
             <tr key={show.showId}>
-              <td>{show.startDate}</td>
+              <td>{moment(show.startDate).format("MM/DD/YYYY")}</td>
               <td>
                 <a className="link-dark" href={`/show/${show.showId}`}>
                   {show.title}
