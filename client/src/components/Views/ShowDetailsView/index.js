@@ -42,22 +42,25 @@ class ShowDetailsView extends Component {
             </Row>
             <hr />
             <Row>
-              <Col>
+              <Col xs="7" lg="5" className="mb-3">
                 <h3>Line-up</h3>
                 <ul class="list-group">
                   {show.artistLineup.map(artist => <li class={`list-group-item ${artist.lineup.isHeadliner ? "fw-bold" : ""}`}>{artist.artist}</li>)}
                 </ul>
               </Col>
-              <Col>
+              <Col xs="5" lg="3" className="mb-3">
                 <h3>Attendees</h3>
                 <ul class="list-group">
                   {show.attendees.map(person => <li class="list-group-item">{person.name}</li>)}
                 </ul>
               </Col>
-              <Col>
-                <h3>Show Notes</h3>
-                <p>{show.notes}</p>
-              </Col>
+              {
+                show.notes ?
+                <Col lg>
+                  <h3>Show Notes</h3>
+                  <p>{show.notes}</p>
+                </Col> : <Fragment />
+              }
             </Row>
           </Fragment>
         }
