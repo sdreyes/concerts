@@ -10,42 +10,33 @@ export function ShowsTable({shows}) {
     }
   });
   return(
-    <Fragment>
-      {showYears.map(year => {
+    <Table striped bordered>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Show</th>
+          <th>Venue</th>
+        </tr>
+      </thead>
+      <tbody>
+        {shows.map(show => {
           return (
-            <Fragment key={year}>
-              <h2 className="text-center">{year}</h2>
-              <Table striped bordered>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Show</th>
-                    <th>Venue</th>
-                    <th>City</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {shows.filter(show => moment(show.startDate).year() === year).map(show => {
-                    return (
-                      <tr key={show.showId}>
-                        <td>{moment(show.startDate).format("MM/DD")}</td>
-                        <td>
-                          <a className="link-dark" href={`/show/${show.showId}`}>
-                            {show.title}
-                          </a>
-                        </td>
-                        <td>{show.location.venue}</td>
-                        <td>
-                          {`${show.location.city}, ${show.location.state ? show.location.state : show.location.country}`}
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </Table>
-            </Fragment>
+            <tr key={show.showId}>
+              <td>{moment(show.startDate).format("MM/DD/YYYY")}</td>
+              <td>
+                <a className="link-dark" href={`/show/${show.showId}`}>
+                  {show.title}
+                </a>
+              </td>
+              <td>
+                {show.location.venue}
+                <br/>
+                <small>{`${show.location.city}, ${show.location.state ? show.location.state : show.location.country}`}</small>
+              </td>
+            </tr>
           )
-      })}
-    </Fragment>
+        })}
+      </tbody>
+    </Table>
   )
 };
