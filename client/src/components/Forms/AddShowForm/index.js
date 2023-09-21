@@ -100,6 +100,13 @@ class AddShowForm extends Component {
     this.setState({lineup}, () => console.log(this.state.lineup));
   };
 
+  handleVenueSelect(e) {
+    console.log(e);
+    let newShow = {...this.state.newShow};
+    newShow.venueId = e.value;
+    this.setState({newShow}, () => console.log(this.state.newShow));
+  };
+
   handleAudienceChange = values => {
     this.setState({
       selectedAudience: values,
@@ -190,6 +197,12 @@ class AddShowForm extends Component {
         label: artist.artist
       }
     ))
+    const venueSelectOptions=this.props.venues && this.props.venues.map(venue => (
+      {
+        value: venue.venueId,
+        label: `${venue.venue} - ${venue.city}, ${venue.state ? venue.state : venue.country}`
+      }
+    ))
     return (
       <Form>
         <h2>Add A New Show</h2>
@@ -207,17 +220,23 @@ class AddShowForm extends Component {
                 {/* SHOW VENUE */}
                 <Form.Group className="mb-2" controlId="showVenue">
                   <Form.Label>Venue*</Form.Label>
-                  <Form.Select name="venueId" onChange={e => this.handleShowChange(e)}>
-                    <option value="">-- Select a Venue --</option>
-                    {this.props.venues && this.props.venues.map(venue => {
-                      return <option 
-                      key={venue.venueId} 
-                      value={venue.venueId}>
-                        {`${venue.venue} - ${venue.city},
-                        ${venue.state ? venue.state : venue.country}`}
-                      </option>
-                    })}
-                  </Form.Select>
+                  <Select key={this.state.newShow.venueId} 
+                    name="venueId"
+                    options={venueSelectOptions}
+                    blurInputOnSelect={false}
+                    closeMenuOnSelect={true}
+                    closeMenuOnScroll={false}
+                    isClearable={false}
+                    isSearchable={true}
+                    isMulti={false}
+                    value={
+                      this.state.newShow.venueId ? {
+                        value: this.state.newShow.venueId,
+                        label: venueSelectOptions.find(v => v.value === this.state.newShow.venueId).label
+                      } : ""
+                    }
+                    onChange={e => this.handleVenueSelect(e)}
+                  />
                   <Form.Text className="text-muted">
                     <a href="#" name="showVenueModal" onClick={e => this.showOrHideModal(e.target.name)}>Don't see the venue you need?</a>
                     <AddVenueModal 
