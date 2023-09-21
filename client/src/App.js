@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import AddShow from "./pages/AddShow.js";
 import Home from "./pages/Home.js";
 import ShowDetail from "./pages/ShowDetail";
+import Attendee from "./pages/Attendee";
 import API from "./utils/API";
 
 class App extends Component {
@@ -88,6 +89,7 @@ class App extends Component {
                 />}
               />}
               <Route path="/show/:showId" element={<ShowDetail/>} />
+              <Route path="/attendee/:attendeeId" element={<Attendee/>} />
           </Routes>
         </Router>
       </Fragment>
