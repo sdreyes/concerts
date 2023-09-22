@@ -18,7 +18,8 @@ class App extends Component {
       venues: [],
       artists: [],
       shows: [],
-      attendees: []
+      attendees: [],
+      artistFilters: [],
     }
     this.loadShows = this.loadShows.bind(this)
   }
@@ -47,8 +48,9 @@ class App extends Component {
     )
   }
   // Load Shows
-  loadShows = () => {
-    API.getShows().then(
+  loadShows = artistFilters => {
+    console.log(artistFilters);
+    API.getShows(artistFilters).then(
       res => {
         this.setState({shows: res.data});
       }
@@ -72,6 +74,7 @@ class App extends Component {
             <Route path="/" element={
               <Home 
                 shows={this.state.shows} 
+                artists={this.state.artists}
                 loadShows={this.loadShows} 
               />}
             />
