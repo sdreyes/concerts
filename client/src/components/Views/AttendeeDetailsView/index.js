@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import API from "../../../utils/API";
 import {Container, Row, Col} from 'react-bootstrap';
+import {ShowsTable} from "../../ShowsTable";
 import moment from 'moment';
 
 class AttendeeDetailsView extends Component {
@@ -10,12 +11,16 @@ class AttendeeDetailsView extends Component {
   }
   // Component Mounted
   componentDidMount() {
-    // API.getShowDetails(parseInt(this.props.params.showId))
-    // .then(res => {
-    //   console.log(res.data);
-    //   this.setState({ show: res.data }, () => console.log(this.state.show))
-    // })
-    // .catch(err => console.log(err));
+    console.log("Testing loading attendee")
+    API.getAttendeeDetails(parseInt(this.props.params.attendeeId))
+    .then(res => {
+      console.log(res.data);
+      this.setState(
+        { attendee: res.data }, 
+        () => console.log(this.state.attendee)
+      )
+    })
+    .catch(err => console.log(err));
   }
   // Render
   render() {
@@ -27,6 +32,9 @@ class AttendeeDetailsView extends Component {
           <Fragment>
             <Row>
               <Col>
+              <h2>{`${attendee.name}'s Shows`}</h2>
+              {attendee.shows && 
+              <ShowsTable shows={attendee.shows}/>}
               </Col>
             </Row>
           </Fragment>

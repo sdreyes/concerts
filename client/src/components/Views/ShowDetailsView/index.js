@@ -51,7 +51,7 @@ class ShowDetailsView extends Component {
               <Col xs="5" lg="3" className="mb-3">
                 <h3>Attendees</h3>
                 <ul class="list-group">
-                  {show.attendees.map(person => <li class="list-group-item">{person.name}</li>)}
+                  {show.attendees.map(person => <li class="list-group-item"><a className="link-dark" href={`/attendee/${person.attendeeId}`}>{person.name}</a></li>)}
                 </ul>
               </Col>
               {

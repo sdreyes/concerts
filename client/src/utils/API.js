@@ -13,6 +13,11 @@ const API = {
     console.log("/api/shows/" + showId);
     return axios.get("/api/shows/" + showId);
   },
+  getAttendeeDetails: function(attendeeId) {
+    console.log("getting attendee details...");
+    console.log("/api/attendees/" + attendeeId);
+    return axios.get("/api/attendees/" + attendeeId);
+  },
   getArtists: function() {
     console.log("Getting artists...");
     return axios.get("/api/artists");

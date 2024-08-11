@@ -56,11 +56,6 @@ class Home extends Component {
             </Form.Group>
           </Col>
         </Row>
-        <Row className="pb-1">
-          <Col>
-            {`${this.props.shows.length} ${this.props.shows.length === 1 ? "show" : "shows"}!`}
-          </Col>
-        </Row>
         <Row>
           <Col>
             {this.props.shows && <ShowsTable shows={this.props.shows}/>}
