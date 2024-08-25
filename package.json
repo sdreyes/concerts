@@ -33,6 +33,7 @@
     "express": "^4.17.3",
     "if-env": "^1.0.4",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "underscore": "^1.13.7"
   }
 }

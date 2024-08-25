@@ -1,12 +1,9 @@
 import axios from "axios";
 
 const API = {
-  getShows: function (artistFilters) {
+  getShows: function () {
     console.log("Getting shows...");
-    console.log(artistFilters);
-    return axios.post("/api/shows/filter", {
-      artistFilters: artistFilters
-    });
+    return axios.get("/api/shows");
   },
   getShowDetails: function(showId) {
     console.log("getting show details...");

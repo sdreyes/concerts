@@ -18,8 +18,7 @@ class App extends Component {
       venues: [],
       artists: [],
       shows: [],
-      attendees: [],
-      artistFilters: [],
+      attendees: []
     }
     this.loadShows = this.loadShows.bind(this)
   }
@@ -71,13 +70,7 @@ class App extends Component {
         <Navigation />
         <Router>
           <Routes>
-            <Route path="/" element={
-              <Home 
-                shows={this.state.shows} 
-                artists={this.state.artists}
-                loadShows={this.loadShows} 
-              />}
-            />
+            <Route path="/" element={<Home/>} />
             {process.env.NODE_ENV !== "production" && 
               <Route path="/addshow" element={
                 <AddShow 

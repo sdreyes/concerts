@@ -17,7 +17,8 @@ router.get('/', async (req, res) => {
             Audience,
             attributes: []
           },
-          as: 'attendees'
+          as: 'attendees',
+          required: false
         },
         {
           model: Artist,
@@ -25,15 +26,16 @@ router.get('/', async (req, res) => {
             Lineup,
             attributes: ['isHeadliner', 'setlist'],
           },
-          as: 'artistLineup'
+          as: 'artistLineup',
+          required: false
         },
         {
           model: Venue,
-          as: 'location'
+          as: 'location',
+          required: false
         }
       ]
     });
-    console.log(showData);
     res.status(200).json(showData);
   } catch (err) {
     res.status(500).json(err);
