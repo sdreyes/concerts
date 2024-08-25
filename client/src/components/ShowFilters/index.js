@@ -76,7 +76,7 @@ class ShowFilters extends Component {
               blurInputOnSelect={false}
               closeMenuOnSelect={true}
               closeMenuOnScroll={false}
-              isClearable={false}
+              isClearable={true}
               isSearchable={true}
               isMulti={true}
               value={this.selectedArtistFilters}
@@ -94,7 +94,7 @@ class ShowFilters extends Component {
               blurInputOnSelect={false}
               closeMenuOnSelect={true}
               closeMenuOnScroll={false}
-              isClearable={false}
+              isClearable={true}
               isSearchable={true}
               isMulti={true}
               value={this.selectedVenueFilters}
@@ -112,8 +112,8 @@ class ShowFilters extends Component {
               blurInputOnSelect={false}
               closeMenuOnSelect={true}
               closeMenuOnScroll={false}
-              isClearable={false}
-              isSearchable={true}
+              isClearable={true}
+              isSearchable={false}
               isMulti={true}
               value={this.selectedYearFilters}
               onChange={(selection) => this.handleFilterChange(selection, "Year")}
