@@ -4,6 +4,8 @@ const Show = require('./Show');
 const Attendee = require('./Attendee');
 const Lineup = require('./Lineup');
 const Audience = require('./Audience');
+const Tag = require('./Tag');
+const ShowTag = require('./ShowTag');
 
 // Show to Attendee (many:many) relationships
 Show.belongsToMany(Attendee, {
@@ -49,11 +51,32 @@ Show.belongsTo(Venue, {
   as: 'location'
 });
 
+// Show to Tag (many:many) relationships
+Show.belongsToMany(Tag, {
+  through: {
+    model: ShowTag,
+    unique: false
+  },
+  foreignKey: 'showId',
+  as: 'tags'
+});
+
+Tag.belongsToMany(Show, {
+  through: {
+    model: ShowTag,
+    unique: false
+  },
+  foreignKey: 'tagId',
+  as: 'shows'
+});
+
 module.exports = {
   Artist,
   Venue,
   Show,
   Attendee,
   Lineup,
-  Audience
+  Audience,
+  Tag,
+  ShowTag
 };
