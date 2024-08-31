@@ -19,7 +19,7 @@ class Home extends Component {
   
   render() {
     return (
-      <Container className="p-3">
+      <Container className="p-1">
         <Row>
           <Col>
             {this.state.shows && 

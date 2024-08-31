@@ -67,7 +67,7 @@ class ShowFilters extends Component {
     return (
       <Row>
         {/* ===== ARTIST FILTER ===== */ }
-        <Col lg={4} md={4} sm={6} xs={6} className={"px-1"} >
+        <Col lg={4} md={4} sm={6} xs={6} >
           <Form.Group className="mb-2" controlId="showArtist">
             <Form.Label>Artist(s)</Form.Label>
             <Select name="artists"
@@ -85,7 +85,7 @@ class ShowFilters extends Component {
           </Form.Group>
         </Col>
         {/* ===== VENUE FILTER ===== */ }
-        <Col lg={4} md={4} sm={6} xs={6} className={"px-1"}>
+        <Col lg={4} md={4} sm={6} xs={6}>
           <Form.Group className="mb-2" controlId="showVenue">
             <Form.Label>Venue(s)</Form.Label>
             <Select name="venues"
@@ -103,7 +103,7 @@ class ShowFilters extends Component {
           </Form.Group>
         </Col>
         {/* ===== YEAR FILTER ===== */ }
-        <Col lg={4} md={4} sm={6} xs={6} className={"px-1"}>
+        <Col lg={4} md={4} sm={6} xs={6}>
           <Form.Group className="mb-3" controlId="showYear">
             <Form.Label>Year(s)</Form.Label>
             <Select name="years"
