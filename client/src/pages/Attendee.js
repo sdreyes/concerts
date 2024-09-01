@@ -7,11 +7,13 @@ const Attendee = () => {
   return(
     <Container className="p-3">
       <Row>
-        <Col>
+        <Col />
+        <Col lg={9} xl={8} xxl={7}>
           <AttendeeDetailsView 
             params={useParams()}
           />
         </Col>
+        <Col />
       </Row>
     </Container>
   )

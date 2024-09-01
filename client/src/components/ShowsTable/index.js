@@ -134,7 +134,11 @@ class ShowsTable extends Component {
                 <tr key={show.showId}>
                   <td>{moment(show.startDate).format("MM/DD/YYYY")}</td>
                   <td>
-                    <a className="link-dark" href={`/show/${show.showId}`}>
+                    <a 
+                      className="link-dark" 
+                      href={`/show/${show.showId}`} 
+                      title={show.artistLineup.map(artist => artist.artist).join('\n')}
+                    >
                       {show.title}
                     </a>
                   </td>
