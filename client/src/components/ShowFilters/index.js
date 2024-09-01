@@ -14,6 +14,8 @@ class ShowFilters extends Component {
       artistFilters: [],
       selectedVenueFilters: [],
       venueFilters: [],
+      selectedAttendeeFilters: [],
+      attendeeFilters: [],
       selectedYearFilters: [],
       yearFilters: []
     }
@@ -33,6 +35,12 @@ class ShowFilters extends Component {
     API.getShows().then(
       res => {
         this.setState({shows: res.data});
+        console.log(res.data);
+      }
+    );
+    API.getAttendees().then(
+      res => {
+        this.setState({attendees: res.data});
       }
     )
   }
@@ -51,6 +59,13 @@ class ShowFilters extends Component {
       {
         value: venue.venueId,
         label: `${venue.venue} (${venue.city}, ${venue.state ? venue.state : venue.country})`
+      }
+    ));
+    const attendeeSelectOptions=this.state.attendees && 
+    this.state.attendees.map(attendee => (
+      {
+        value: attendee.attendeeId,
+        label: attendee.name
       }
     ));
     let years = [];
@@ -99,6 +114,24 @@ class ShowFilters extends Component {
               isMulti={true}
               value={this.selectedVenueFilters}
               onChange={(selection) => this.handleFilterChange(selection, "Venue")}
+            />
+          </Form.Group>
+        </Col>
+        {/* ===== ATTENDEE FILTER ===== */ }
+        <Col lg={4} md={4} sm={6} xs={6} >
+          <Form.Group className="mb-2" controlId="showAttendee">
+            <Form.Label>Attendee(s)</Form.Label>
+            <Select name="attendees"
+              placeholder="Filter by attendee"
+              options={attendeeSelectOptions}
+              blurInputOnSelect={false}
+              closeMenuOnSelect={true}
+              closeMenuOnScroll={false}
+              isClearable={true}
+              isSearchable={true}
+              isMulti={true}
+              value={this.selectedAttendeeFilters}
+              onChange={(selection) => this.handleFilterChange(selection, "Attendee")}
             />
           </Form.Group>
         </Col>

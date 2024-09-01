@@ -92,6 +92,15 @@ router.get('/:attendeeId', async (req, res) => {
               as: 'artistLineup'
             },
             {
+              model: Attendee,
+              through: {
+                Audience,
+                attributes: []
+              },
+              as: 'attendees',
+              required: false
+            },
+            {
               model: Venue,
               as: 'location'
             }

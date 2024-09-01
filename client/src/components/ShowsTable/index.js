@@ -63,8 +63,10 @@ class ShowsTable extends Component {
     let artistFilters = this.state.artistFilters;
     let venueFilters = this.state.venueFilters;
     let yearFilters = this.state.yearFilters;
+    let attendeeFilters = this.state.attendeeFilters;
     // ======= ARTISTS =======
     // Get a list of the indexes of any shows that contain the selected artist filters
+    console.log("filtering artists...");
     let showIndexesForArtistFilters = [];
     this.state.shows.forEach(function(show, index) { 
       // If no artist filters, inclue all artists
@@ -78,8 +80,9 @@ class ShowsTable extends Component {
       ) {
         showIndexesForArtistFilters.push(index);
       };
-    })
+    });
     // ======= VENUES =======
+    console.log("filtering venues...");
     let showIndexesForVenueFilters = [];
     this.state.shows.forEach(function(show, index) {
       // If no venue filters, include all venues
@@ -89,8 +92,26 @@ class ShowsTable extends Component {
       } else if (venueFilters.includes(show.location.venueId)) {
         showIndexesForVenueFilters.push(index);
       };
-    })
+    });
+    // ======= ATTENDEES =======
+    console.log("filtering attendees...");
+    // Get a list of the indexes of any shows that contain the selected attendee filters
+    let showIndexesForAttendeeFilters = [];
+    this.state.shows.forEach(function(show, index) { 
+      // If no attendee filters, inclue all attendees
+      if (attendeeFilters.length === 0) {
+        showIndexesForAttendeeFilters.push(index);
+      } else if (
+        // If at least one of the attendees includes an attendeeFilter, push it to the index arr
+        show.attendees.some(
+          attendee => attendeeFilters.includes(attendee.attendeeId)
+        )
+      ) {
+        showIndexesForAttendeeFilters.push(index);
+      };
+    });
     // ======= YEARS =======
+    console.log("filtering years...");
     let showIndexesForYearFilters = [];
     this.state.shows.forEach(function(show, index) {
       // If no year filters, include all years
@@ -105,6 +126,7 @@ class ShowsTable extends Component {
     let intersection = _.intersection(
       showIndexesForArtistFilters, 
       showIndexesForVenueFilters,
+      showIndexesForAttendeeFilters,
       showIndexesForYearFilters
     );
     this.setState({
