@@ -16,6 +16,8 @@ class ShowFilters extends Component {
       venueFilters: [],
       selectedAttendeeFilters: [],
       attendeeFilters: [],
+      selectedMonthFilters: [],
+      monthFilters: [],
       selectedYearFilters: [],
       yearFilters: []
     }
@@ -68,6 +70,11 @@ class ShowFilters extends Component {
         label: attendee.name
       }
     ));
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthSelectOptions = months.map((month, i) => ({
+      value: i,
+      label: month
+    }));
     let years = [];
     this.state.shows && this.state.shows.forEach(show => {
       if(!years.includes(moment(show.startDate).year())) {
@@ -132,6 +139,24 @@ class ShowFilters extends Component {
               isMulti={true}
               value={this.selectedAttendeeFilters}
               onChange={(selection) => this.handleFilterChange(selection, "Attendee")}
+            />
+          </Form.Group>
+        </Col>
+        {/* ===== MONTH FILTER ===== */ }
+        <Col lg={4} md={4} sm={6} xs={6}>
+          <Form.Group className="mb-3" controlId="showMonth">
+            <Form.Label>Month(s)</Form.Label>
+            <Select name="months"
+              placeholder="Filter by month"
+              options={monthSelectOptions}
+              blurInputOnSelect={false}
+              closeMenuOnSelect={true}
+              closeMenuOnScroll={false}
+              isClearable={true}
+              isSearchable={false}
+              isMulti={true}
+              value={this.selectedMonthFilters}
+              onChange={(selection) => this.handleFilterChange(selection, "Month")}
             />
           </Form.Group>
         </Col>

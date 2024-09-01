@@ -15,6 +15,7 @@ class ShowsTable extends Component {
       venueFilters: [],
       attendeeFilters: [],
       tagFilters: [],
+      monthFilters: [],
       yearFilters: []
     }
   }
@@ -48,11 +49,16 @@ class ShowsTable extends Component {
           tagFilters: values.map(a => a.value)
         }, () => this.filterShows());
         return;
-        case 'Year':
-          this.setState({
-            yearFilters: values.map(a => a.value)
-          }, () => this.filterShows());
-          return;
+      case 'Month':
+        this.setState({
+          monthFilters: values.map(a => a.value)
+        }, () => this.filterShows());
+        return;
+    case 'Year':
+        this.setState({
+          yearFilters: values.map(a => a.value)
+        }, () => this.filterShows());
+        return;
       default:
         return;
     };
@@ -62,8 +68,9 @@ class ShowsTable extends Component {
   filterShows = () => {
     let artistFilters = this.state.artistFilters;
     let venueFilters = this.state.venueFilters;
-    let yearFilters = this.state.yearFilters;
     let attendeeFilters = this.state.attendeeFilters;
+    let monthFilters = this.state.monthFilters;
+    let yearFilters = this.state.yearFilters;
     // ======= ARTISTS =======
     // Get a list of the indexes of any shows that contain the selected artist filters
     console.log("filtering artists...");
@@ -110,6 +117,18 @@ class ShowsTable extends Component {
         showIndexesForAttendeeFilters.push(index);
       };
     });
+    // ======= MONTHS =======
+    console.log("filtering months...");
+    let showIndexesForMonthFilters = [];
+    this.state.shows.forEach(function(show, index) {
+      // If no month filters, include all months
+      if(monthFilters.length === 0) {
+        showIndexesForMonthFilters.push(index);
+      // If the show month is included in the list of month filters, push it to the index arr
+      } else if (monthFilters.includes(moment(show.startDate).month())) {
+        showIndexesForMonthFilters.push(index);
+      };
+    });
     // ======= YEARS =======
     console.log("filtering years...");
     let showIndexesForYearFilters = [];
@@ -121,12 +140,13 @@ class ShowsTable extends Component {
       } else if (yearFilters.includes(moment(show.startDate).year())) {
         showIndexesForYearFilters.push(index);
       };
-    })
+    });
     // Intersection?
     let intersection = _.intersection(
       showIndexesForArtistFilters, 
       showIndexesForVenueFilters,
       showIndexesForAttendeeFilters,
+      showIndexesForMonthFilters,
       showIndexesForYearFilters
     );
     this.setState({
